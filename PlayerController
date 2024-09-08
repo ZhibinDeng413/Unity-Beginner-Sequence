@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowPlayer : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -10,13 +10,20 @@ public class FollowPlayer : MonoBehaviour
         
     }
 
-    public GameObject player;
-    private Vector3 offset = new Vector3(0, 5, -7);
+    private float speed = 20.0f;
+    private float turnSpeed = 45.0f;
+    private float horizonalInput;
+    private float forwardInput;
 
     // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
-        // Make the main camera follow the player
-        transform.position = player.transform.position + offset;
+        horizonalInput = Input.GetAxis("Horizontal");
+        forwardInput = Input.GetAxis("Vertical");
+
+        // Move the vehicle forward
+        transform.Translate(Vector3.forward * Time.deltaTime * speed * forwardInput);
+        transform.Rotate(Vector3.up, turnSpeed * horizonalInput * Time.deltaTime);
     }
 }
+
